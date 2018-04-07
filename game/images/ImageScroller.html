@@ -1,0 +1,19 @@
+<head>
+    <script type="text/javascript">
+        var imageFiles = ["BearSprite1.png", "BearSprite2.png", "BearSprite3.png", "BearSprite4.png","BearSprite5.png", "BearSprite6.png","BearSprite7.png", "BearSprite8.png","BearSprite9.png"];
+        function NextImage (imgId) {
+            var img = document.getElementById (imgId);
+            if (img.imageIdx === undefined) {
+                img.imageIdx = -1;
+            }
+            img.imageIdx = (img.imageIdx + 1) % imageFiles.length;
+
+            img.src = imageFiles[img.imageIdx];
+        }
+    </script>
+</head>
+<body onload="NextImage ('myImg')">
+    <button onclick="NextImage ('myImg')">Change the image</button>
+    <br /><br />
+    <img id="myImg" width="300px" height="300px" />
+</body>

@@ -1,0 +1,80 @@
+<canvas id="myCanvas" width="300" height="300"></canvas>
+
+	<script>
+    
+		var myCanvas = document.getElementById('myCanvas'); // in your HTML this element appears as <canvas id="myCanvas"></canvas>
+		var ctx = myCanvas.getContext('2d');
+		var fill = 'rgb(66, 86, 244)';
+		var x = -100;
+		var y = -100;
+		
+		var num = 0;
+		var frames = 0;
+		var mode = "walk"
+		
+		var pictures = [];
+		
+		pictures.push(createImage("images/BearSprite1.png", "bear1"));
+		pictures.push(createImage("images/BearSprite2.png", "bear2"));
+		pictures.push(createImage("images/BearSprite3.png", "bear3"));
+		pictures.push(createImage("images/BearSprite4.png", "bear4"));
+		pictures.push(createImage("images/BearSprite5.png", "bear5"));
+		pictures.push(createImage("images/BearSprite6.png", "bear6"));
+		pictures.push(createImage("images/BearSprite7.png", "bear7"));
+		pictures.push(createImage("images/BearSprite8.png", "bear8"));
+		pictures.push(createImage("images/BearSprite9.png", "bear9"));
+		
+	//	var picture = new Image();
+	//	picture.src = "images/BearSprite9.png";
+		
+		
+		mainLoop();
+		
+		function mainLoop() {
+		
+			ctx.clearRect(0,0,myCanvas.width,myCanvas.height);
+			setTimeout(mainLoop, 1000/10);
+		
+			ctx.drawImage(pictures[num],0,0);
+		
+			num+=1;
+			if (mode == "walk" && num>3) {
+				num = 0;
+			}
+		
+			/*
+		
+			if(x%2 == 0) {
+				fill = 'rgb(66, 86, 244)'; // sets the color to fill in the rectangle with
+			}
+			if(x%2 !=0) {
+				fill = 'rgb(200,0,0)'; // sets the color to fill in the rectangle with
+			}
+			ctx.fillStyle = fill;  // sets the color to fill in the rectangle with
+			ctx.fillRect(x, y, 100, 100);   // draws the rectangle at position 10, 10 with a width of 300
+		
+			x+=1;
+			y+=1;
+		
+			if (x==300) {
+			x = -100;
+			y = -100;
+			}
+		
+			*/
+		
+			//grafx.drawImage(backdrop.Pic,backdrop.X,backdrop.Y);
+			//grafx.drawImage(frontdrop.Pic,frontdrop.X,frontdrop.Y);
+		
+			}
+		
+		function createImage(src, title) {
+			var img   = new Image();
+			img.src   = src;
+			img.alt   = title;
+			img.title = title;
+			return img; 
+		};
+	
+	</script>
+

@@ -1,0 +1,162 @@
+<body onkeydown="keyDown(event)" onkeyup="keyUp(event)"></body>
+
+<canvas id="graphics" width=1000 height=700 style="position:absolute;top:0;left:300;background-image:url('images/Backdrop1.jpg');"> </canvas>
+ 
+
+ 
+<script>
+
+
+
+
+//VARIABLES
+ var gameCanvas = document.getElementById("graphics");
+ var grafx = gameCanvas.getContext("2d");
+ var backdrop = new Layer("images/Backdrop1.jpg",0,-100);
+ var frontdrop = new Layer("images/trees10.png",0,0);
+ var isLeft = false;
+ var isRight = false;
+ var running = false;
+ var hero = new Hero(100,370);
+ 
+ 
+ //Sprites
+/* var bear1 = new Sprite("images/BearSprite1.png");
+ var bear2 = new Sprite("images/BearSprite2.png");
+ var bear3 = new Sprite("images/BearSprite3.png");
+ var bear4 = new Sprite("images/BearSprite4.png");
+ var bear5 = new Sprite("images/BearSprite5.png");
+ var bear6 = new Sprite("images/BearSprite6.png");
+ var bear7 = new Sprite("images/BearSprite7.png");
+ var bear8 = new Sprite("images/BearSprite8.png");
+ var bear9 = new Sprite("images/BearSprite9.png");
+ */
+ 
+ var num = 0;
+ var frames = 0;
+ var mode = "walk"
+		
+ var pictures = [];
+		
+ pictures.push(createImage("images/BearSprite1.png", "bear1"));
+ pictures.push(createImage("images/BearSprite2.png", "bear2"));
+ pictures.push(createImage("images/BearSprite3.png", "bear3"));
+ pictures.push(createImage("images/BearSprite4.png", "bear4"));
+ pictures.push(createImage("images/BearSprite5.png", "bear5"));
+ pictures.push(createImage("images/BearSprite6.png", "bear6"));
+ pictures.push(createImage("images/BearSprite7.png", "bear7"));
+ pictures.push(createImage("images/BearSprite8.png", "bear8"));
+ pictures.push(createImage("images/BearSprite9.png", "bear9"));
+ 
+ var bear = [];
+ 
+ bear.push(createImage("images/BearSprite1.png"));
+ bear.push(createImage("images/BearSprite2.png"));
+ bear.push(createImage("images/BearSprite3.png"));
+ bear.push(createImage("images/BearSprite4.png"));
+ bear.push(createImage("images/BearSprite5.png"));
+ bear.push(createImage("images/BearSprite6.png"));
+ bear.push(createImage("images/BearSprite7.png"));
+ bear.push(createImage("images/BearSprite8.png"));
+ bear.push(createImage("images/BearSprite9.png")); 
+ 
+ 
+ 
+ //EVENTS
+ function keyDown(e) {
+	if(String.fromCharCode(e.keyCode)== "%") isLeft = true;
+	if(String.fromCharCode(e.keyCode)== "'") isRight = true;
+ }
+ 
+ function keyUp(e) {
+	if(String.fromCharCode(e.keyCode)== "%") isLeft = false;
+	if(String.fromCharCode(e.keyCode)== "'") isRight = false;
+ }
+ 
+ 
+ // Main Loop
+ MainLoop();
+ function MainLoop() {
+ 
+ //PREVARIABLE ADJUSTMENTS.X
+ if(backdrop.X == -1000) {
+ backdrop.X = 0;
+ }
+ backdrop.X += backdrop.velocityX;
+ 
+ if(frontdrop.X==-1000) {
+ frontdrop.X = 0;
+ }
+ frontdrop.X +=frontdrop.velocityX;
+ 
+  
+ //LOGIC
+ if (isRight) {
+ backdrop.velocityX = -2;
+ frontdrop.velocityX = -4;
+ running = true;
+ }
+
+ if (!isRight) {
+ backdrop.velocityX = 0;
+ frontdrop.velocityX = 0;
+ running = false;
+ num = 0;
+ }
+ 
+ grafx.clearRect(0,0,gameCanvas.width,gameCanvas.height);
+ setTimeout(MainLoop, 1000/60);
+ grafx.drawImage(backdrop.Pic,backdrop.X,backdrop.Y);
+ grafx.drawImage(frontdrop.Pic,frontdrop.X,frontdrop.Y);
+ 
+ grafx.drawImage(bear[num],hero.X,hero.Y);
+ frames+=1;
+ if (running && frames%4==0) num+=1;
+ if (mode == "walk" && num>3) {
+	num = 0;
+}
+ 
+ }
+ 
+ //var createImage = function(src) {
+ function createImage(source) {
+  var img   = new Image();
+  img.src   = source;
+  return img; 
+}
+
+ function Layer(img,x,y) {
+ this.Pic = new Image();
+ this.Pic.src = img;
+ this.X = x;
+ this.Y = y;
+ this.previousX;
+ this.previousY;
+ this.velocityX = 0;
+ this.velocityY = 0;
+ }
+ 
+ function Sprite(img) {
+ this.Pic = new Image();
+ this.Pic.src = img;
+// return Pic;
+ }
+ 
+ function Hero(x,y) {
+ this.X = x;
+ this.Y = y;
+ this.previousX;
+ this.previousY;
+ this.velocityX = 0;
+ this.velocityY = 0;
+ }
+ /*
+ function createImage(src, title) {
+			var img   = new Image();
+			img.src   = src;
+			img.alt   = title;
+			img.title = title;
+			return img; 
+		};*/
+ 
+ </script>
