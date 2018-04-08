@@ -13,43 +13,27 @@
  var gameCanvas = document.getElementById("graphics");
  var grafx = gameCanvas.getContext("2d");
  var backdrop = new Layer("images/Backdrop1.jpg",0,-100);
- var frontdrop = new Layer("images/trees10.png",0,0);
- var isLeft = false;
+ var frontdrop = new Layer("images/trees13.png",0,0);
+ var isUp = false;
+// var isDown = false;
  var isRight = false;
  var running = false;
+ var isFalling = false;
+ var isJumping = false;
+ var hasJumped = false;
+ var hasWalked = true;
+ var onGround = true;
  var hero = new Hero(100,370);
- 
- 
- //Sprites
-/* var bear1 = new Sprite("images/BearSprite1.png");
- var bear2 = new Sprite("images/BearSprite2.png");
- var bear3 = new Sprite("images/BearSprite3.png");
- var bear4 = new Sprite("images/BearSprite4.png");
- var bear5 = new Sprite("images/BearSprite5.png");
- var bear6 = new Sprite("images/BearSprite6.png");
- var bear7 = new Sprite("images/BearSprite7.png");
- var bear8 = new Sprite("images/BearSprite8.png");
- var bear9 = new Sprite("images/BearSprite9.png");
- */
  
  var num = 0;
  var frames = 0;
  var mode = "walk"
-		
- var pictures = [];
-		
- pictures.push(createImage("images/BearSprite1.png", "bear1"));
- pictures.push(createImage("images/BearSprite2.png", "bear2"));
- pictures.push(createImage("images/BearSprite3.png", "bear3"));
- pictures.push(createImage("images/BearSprite4.png", "bear4"));
- pictures.push(createImage("images/BearSprite5.png", "bear5"));
- pictures.push(createImage("images/BearSprite6.png", "bear6"));
- pictures.push(createImage("images/BearSprite7.png", "bear7"));
- pictures.push(createImage("images/BearSprite8.png", "bear8"));
- pictures.push(createImage("images/BearSprite9.png", "bear9"));
+ var jumpCount = 0; //counts how many frames during jump
+ var maxJump = 60; //can jump for 1 second, 60 frames
+ var walkCount = 0;
  
+ //create and fill bear sprite array
  var bear = [];
- 
  bear.push(createImage("images/BearSprite1.png"));
  bear.push(createImage("images/BearSprite2.png"));
  bear.push(createImage("images/BearSprite3.png"));
@@ -60,17 +44,17 @@
  bear.push(createImage("images/BearSprite8.png"));
  bear.push(createImage("images/BearSprite9.png")); 
  
- 
- 
- //EVENTS
+  //EVENTS
  function keyDown(e) {
-	if(String.fromCharCode(e.keyCode)== "%") isLeft = true;
+	if(String.fromCharCode(e.keyCode)== "&") isUp = true;
 	if(String.fromCharCode(e.keyCode)== "'") isRight = true;
+	if(String.fromCharCode(e.keyCode)== "(") isDown = true;
  }
  
  function keyUp(e) {
-	if(String.fromCharCode(e.keyCode)== "%") isLeft = false;
+	if(String.fromCharCode(e.keyCode)== "&") isUp = false;
 	if(String.fromCharCode(e.keyCode)== "'") isRight = false;
+	if(String.fromCharCode(e.keyCode)== "(") isDown = false;
  }
  
  
@@ -78,32 +62,100 @@
  MainLoop();
  function MainLoop() {
  
- //PREVARIABLE ADJUSTMENTS.X
- if(backdrop.X == -1000) {
- backdrop.X = 0;
- }
- backdrop.X += backdrop.velocityX;
+	//PREVARIABLE ADJUSTMENTS
+	if(backdrop.X == -1000) {
+		backdrop.X = 0;
+	}
+	backdrop.X += backdrop.velocityX;
  
- if(frontdrop.X==-1000) {
- frontdrop.X = 0;
- }
- frontdrop.X +=frontdrop.velocityX;
+	if(frontdrop.X==-1000) {
+		frontdrop.X = 0;
+	}
+	frontdrop.X +=frontdrop.velocityX;
  
   
- //LOGIC
- if (isRight) {
- backdrop.velocityX = -2;
- frontdrop.velocityX = -4;
- running = true;
- }
+	//LOGIC
+	if (isRight) {
+		backdrop.velocityX = -2;
+		frontdrop.velocityX = -4;
+		running = true;		
+	}
 
- if (!isRight) {
- backdrop.velocityX = 0;
- frontdrop.velocityX = 0;
- running = false;
- num = 0;
+	if (!isRight) {
+		backdrop.velocityX = 0;
+		frontdrop.velocityX = 0;
+		running = false;
+		num = 0;
+	}
+ 
+ if(isUp){
+	if(jumpCount < maxJump && !hasJumped && hasWalked) {
+		isJumping = true;
+		isFalling = false;
+	//	mode = "jump";
+	}
+	else {
+		isJumping = false;
+		isFalling = true;
+		
+		// isFalling shouldnt be true except when falling.  Just because up is pressed doesn't mean.
+	//	mode = "fall";
+	}
+ }
+ else {
+	if (hero.Y == 370) {
+		isFalling = false;
+		onGround = true;
+		jumpCount = 0;
+		hasJumped = false;
+		mode = "walk"
+	}
+	else {
+		isFalling = true;
+		isJumping = false;
+		hasJumped = true;
+	//	mode = "fall";
+	}
  }
  
+ if (hero.Y ==370) {
+	walkCount+=1;
+	if(walkCount>10) hasWalked = true;
+ }
+ 
+ if (isJumping){
+	hero.Y -= 5;
+	jumpCount+=1;
+	mode = "jump";
+ }
+
+ if (hero.Y == 370) {
+	isFalling = false;
+	onGround = true;
+	jumpCount = 0;
+	hasJumped = false;
+	mode = "walk"
+ }
+ 
+ if (isFalling) {
+	hero.Y +=5;
+	mode = "fall";
+	walkCount = 0;
+	hasWalked = false;
+ }
+ 
+ if (mode == "walk"){
+	if (running && frames%4==0){ //changes bear image every four frames
+		if (num>=3) num = 0;
+		else num += 1;
+	}
+}
+if (mode == "jump") num = 4;
+if (mode == "fall") num = 5;
+// if (isJumping) num = 4;
+// if (isFalling) num = 5;
+ 
+
  grafx.clearRect(0,0,gameCanvas.width,gameCanvas.height);
  setTimeout(MainLoop, 1000/60);
  grafx.drawImage(backdrop.Pic,backdrop.X,backdrop.Y);
@@ -111,10 +163,8 @@
  
  grafx.drawImage(bear[num],hero.X,hero.Y);
  frames+=1;
- if (running && frames%4==0) num+=1;
- if (mode == "walk" && num>3) {
-	num = 0;
-}
+ 
+ 
  
  }
  
