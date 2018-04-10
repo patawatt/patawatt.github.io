@@ -23,6 +23,8 @@
  var hasJumped = false;
  var hasWalked = true;
  var onGround = true;
+ var stayRight = false;
+ var isFriction = true;
  var hero = new Hero(100,370);
  
  var num = 0;
@@ -31,6 +33,16 @@
  var jumpCount = 0; //counts how many frames during jump
  var maxJump = 60; //can jump for 1 second, 60 frames
  var walkCount = 0;
+ 
+ var jumpSpeed = 5;
+ var jumpArray = [];
+ /*
+ for i in maxJump{
+	
+ 
+ 
+ }
+ */
  
  //create and fill bear sprite array
  var bear = [];
@@ -75,13 +87,12 @@
  
   
 	//LOGIC
-	if (isRight) {
+	if ((isRight && isFriction)|| stayRight) { //fix logic
 		backdrop.velocityX = -2;
 		frontdrop.velocityX = -4;
 		running = true;		
 	}
-
-	if (!isRight) {
+	else {
 		backdrop.velocityX = 0;
 		frontdrop.velocityX = 0;
 		running = false;
@@ -92,6 +103,8 @@
 	if(jumpCount < maxJump && !hasJumped && hasWalked) {
 		isJumping = true;
 		isFalling = false;
+		if (isRight && isFriction) stayRight = true;
+		isFriction = false;
 	//	mode = "jump";
 	}
 	else {
@@ -124,7 +137,7 @@
  }
  
  if (isJumping){
-	hero.Y -= 5;
+	hero.Y -= jumpSpeed;
 	jumpCount+=1;
 	mode = "jump";
  }
@@ -135,10 +148,12 @@
 	jumpCount = 0;
 	hasJumped = false;
 	mode = "walk"
+	stayRight = false;
+	isFriction = true;
  }
  
  if (isFalling) {
-	hero.Y +=5;
+	hero.Y += jumpSpeed;
 	mode = "fall";
 	walkCount = 0;
 	hasWalked = false;
