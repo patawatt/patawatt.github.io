@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    	<title>Fictitious Personal Data Form</title>
+    	<style>
+      		input:invalid {
+        	border: 2px dashed red;
+      		}
+      		input:valid {
+        	border: 2px solid black;
+      		}
+    	</style>
+</head>
+
+<body>
+    	<form>
+      	<div>
+		<label for="emailAddress">Email address:</label>
+		<input id="emailAddress" type="email" name="email" placeholder="123@example.com" required>
+	</div>
+	<br>
+	<div>
+		<label for="persURL">Personal URL:</label>
+		<input id="persURL" type="url" name="url" value="http://" required>
+	</div>
+	<br>
+	<div>
+		<label for="birthday">Date of birth:</label>
+		<input id="birthday" type="date" name="birthday" required>
+	</div>
+	<br>
+	<div>
+		<label for="gender">Gender:</label><br>
+		<input id="gender" type="radio" name="gender" value="male">Male<br>
+		<input id="gender" type="radio" name="gender" value="female">Female<br>
+		<input id="gender" type="radio" name="gender" value="other">Other<br>
+	</div>
+	<br>
+	<div>
+		<label for="comment">Comments:</label>
+		<input id="comment" type="text" name="comment">
+	</div>
+	<br>
+	<div>
+		<label for="fake">I confirm that the data entered above is fictitious:</label>
+		<input id="fake" type="checkbox" name="fake">
+	</div>
+	<br>
+	<div>
+		<input type="reset" value="Clear all"/>
+		<input type="submit" value="Submit form"/>
+	</div>
+	
+    	</form>
+</body>
+
