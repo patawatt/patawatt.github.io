@@ -1,0 +1,28 @@
+body {
+	background-color:lightblue;
+}
+
+h1 {
+	color:navy;
+	margin-left: 20px;
+}
+
+.ex1 {
+	width:300px;
+	border: solid 20px transparent;
+	border-image: url(border-image.png) 25 30 10 20 repeat;
+}	
+
+.ex2 {
+	width:330px;
+	padding:5px;
+	border:1px solid #FFFFFF;
+	resize:both;
+	overflow:hidden;
+}
+.no-progressbar,meter .box {
+	color: red;
+}
+.progressbar,meter .box {
+	color: green;
+}
