@@ -61,7 +61,7 @@
 		var x = document.getElementById("locatetest");
 
 		function getLocation() {
-			if (navigator.geolocation) {
+			if (Modernizr.geolocation) {
 				navigator.geolocation.getCurrentPosition(showPosition);
 			} else { 
 				x.innerHTML = "Geolocation is not supported by this browser.";
