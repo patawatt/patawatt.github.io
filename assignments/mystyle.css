@@ -27,15 +27,15 @@ h1 {
 	color: green;
 }
 
-@media only screen and (min-width: 1080px) {
+/*@media only screen and (min-width: 1081px) {
     body {
-        background-color: green;
+        background-color: lightblue;
     }
-}
+}*/
 
 @media only screen and (orientation: landscape) {
     body {
-        background-color: lightblue;
+        background-color: green;
     }
 }
 
