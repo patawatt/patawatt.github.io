@@ -20,9 +20,12 @@ h1 {
 	resize:both;
 	overflow:hidden;
 }
-.no-progressbar,meter .box {
+.no-progressbar .metercompat {
 	color: red;
 }
-.progressbar,meter .box {
+.progressbar .metercompat {
 	color: green;
 }
+
+/*.no-geolocation .box { color: red; }
+.geolocation .box { color: green; }
